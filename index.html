@@ -5,694 +5,687 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>8x8 Content Asset Intake</title>
 <style>
-  /* ── Reset & base ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    background: #F5F4F0;
-    color: #1A1A1A;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
+/* ── Telegraf font ── */
+@import url('https://fonts.cdnfonts.com/css/pp-telegraf');
 
-  /* ── Layout ── */
-  .page { max-width: 760px; margin: 0 auto; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'PP Telegraf', 'Telegraf', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: #EBEAE1;
+  color: #3A3A3B;
+  min-height: 100vh;
+}
 
-  /* ── Header ── */
-  .header { margin-bottom: 2rem; }
-  .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-  .logo { font-size: 22px; font-weight: 700; color: #1A1A1A; letter-spacing: -0.5px; }
-  .logo span { color: #E8510A; }
-  .header h1 { font-size: 22px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
-  .header p { font-size: 13px; color: #666; line-height: 1.5; }
+/* ── BRAND TOKENS ── */
+:root {
+  --dark:    #3A3A3B;
+  --teal:    #04888A;
+  --lt-blue: #8EBEB1;
+  --offwhite:#EBEAE1;
+  --white:   #FFFFFF;
+  --border:  #D5D4CC;
+  --muted:   #6B6B6C;
+  --error:   #C0392B;
+  --success-bg: #E6F4F4;
+  --success-border: #8EBEB1;
+  --success-text: #025355;
+}
 
-  /* ── Webhook config bar ── */
-  .webhook-bar {
-    background: #fff;
-    border: 1px solid #E0E0E0;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .webhook-bar label { font-size: 12px; font-weight: 600; color: #444; white-space: nowrap; }
-  .webhook-bar input {
-    flex: 1;
-    min-width: 200px;
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-    border: 1px solid #D0D0D0;
-    border-radius: 6px;
-    padding: 6px 10px;
-    color: #1A1A1A;
-    background: #FAFAFA;
-  }
-  .webhook-bar input:focus { outline: none; border-color: #E8510A; }
-  .wh-pill {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-  .wh-set { background: #EAF3DE; color: #3B6D11; }
-  .wh-unset { background: #FFF4EF; color: #A33A00; }
+/* ── NAV ── */
+.nav {
+  background: var(--dark);
+  padding: 0 2.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo svg { height: 28px; width: auto; display: block; }
+.nav-tag {
+  font-size: 11px;
+  font-weight: 400;
+  color: #888;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 
-  /* ── Card ── */
-  .card {
-    background: #fff;
-    border: 1px solid #E0E0E0;
-    border-radius: 12px;
-    padding: 20px 22px;
-    margin-bottom: 16px;
-  }
-  .card-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #888;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #F0F0F0;
-  }
+/* ── HERO ── */
+.hero {
+  background: var(--dark);
+  padding: 3.5rem 2.5rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--teal);
+}
+.hero h1 {
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--lt-blue);
+}
+.hero p {
+  font-size: 14px;
+  color: #AAA;
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.65;
+  font-weight: 300;
+}
 
-  /* ── Form grid ── */
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  @media (max-width: 560px) {
-    .grid2, .grid3 { grid-template-columns: 1fr; }
-  }
+/* ── MAIN GRID ── */
+.main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 2.5rem;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .main { grid-template-columns: 1fr; }
+  .col-left { order: 2; }
+  .col-right { order: 1; }
+}
 
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-size: 12px; font-weight: 500; color: #555; }
-  .field input, .field select {
-    font-size: 13px;
-    border: 1px solid #D0D0D0;
-    border-radius: 7px;
-    padding: 8px 10px;
-    color: #1A1A1A;
-    background: #FAFAFA;
-    width: 100%;
-    transition: border-color 0.15s;
-  }
-  .field input:focus, .field select:focus { outline: none; border-color: #E8510A; background: #fff; }
-  .field input.error, .field select.error { border-color: #E24B4A; }
-  .field .hint { font-size: 11px; color: #999; }
+/* ── LEFT COLUMN ── */
+.info-block { margin-bottom: 2rem; }
+.info-block h2 {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+.info-block p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+.step-list { list-style: none; }
+.step-list li { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 1.25rem; }
+.step-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.step-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 2px; }
+.step-text span { font-size: 12px; color: var(--muted); line-height: 1.55; }
+.info-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+.note-box {
+  background: var(--white);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.note-box strong { color: var(--teal); }
 
-  /* ── Submit button ── */
-  .btn-submit {
-    width: 100%;
-    background: #E8510A;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    margin-top: 4px;
-  }
-  .btn-submit:hover { opacity: 0.9; }
-  .btn-submit:active { transform: scale(0.99); }
-  .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+/* ── FORM CARD ── */
+.form-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 28px rgba(58,58,59,0.1);
+  overflow: hidden;
+}
+.form-card-header {
+  background: var(--teal);
+  padding: 18px 24px;
+}
+.form-card-header h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 3px;
+  letter-spacing: 0.01em;
+}
+.form-card-header p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+}
+.form-body { padding: 22px 24px; }
 
-  /* ── Status banner ── */
-  .status {
-    display: none;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-top: 12px;
-  }
-  .status.loading { background: #F5F4F0; border: 1px solid #D0D0D0; color: #555; }
-  .status.success { background: #EAF3DE; border: 1px solid #9FE1CB; color: #085041; }
-  .status.error   { background: #FCEBEB; border: 1px solid #F7C1C1; color: #791F1F; }
-  .status a { color: inherit; font-weight: 600; }
-  .spinner {
-    display: inline-block; width: 13px; height: 13px;
-    border: 2px solid currentColor; border-top-color: transparent;
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-    margin-right: 6px; vertical-align: middle;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* ── WEBHOOK BAR ── */
+.webhook-bar {
+  background: var(--offwhite);
+  border-radius: 8px;
+  padding: 10px 13px;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.webhook-bar label { font-size: 11px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.webhook-bar input {
+  flex: 1; min-width: 120px;
+  font-size: 11px; font-family: 'Courier New', monospace;
+  border: 1px solid var(--border); border-radius: 5px;
+  padding: 5px 8px; background: var(--white); color: var(--dark);
+}
+.webhook-bar .hint { font-size: 10px; color: #AAA; line-height: 1.4; }
+.webhook-bar input:focus { outline: none; border-color: var(--teal); }
+.wh-pill { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+.wh-set   { background: var(--success-bg); color: var(--success-text); }
+.wh-unset { background: #F0EEEA; color: #7A5A3A; }
 
-  /* ── Output section ── */
-  .output { display: none; margin-top: 20px; }
+/* ── SECTION LABELS ── */
+.sec-label {
+  font-size: 10px; font-weight: 600; color: var(--teal);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin: 18px 0 10px; padding-bottom: 6px;
+  border-bottom: 1px solid #F0EFEA;
+}
+.sec-label:first-of-type { margin-top: 0; }
 
-  /* ── DAM copy card ── */
-  .dam-card {
-    background: #fff;
-    border: 1.5px solid #E8510A;
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-  }
-  .dam-card-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #E8510A;
-    margin-bottom: 4px;
-  }
-  .dam-card-sub { font-size: 12px; color: #666; margin-bottom: 14px; line-height: 1.5; }
-  .btn-dam {
-    width: 100%;
-    background: #FFF4EF;
-    color: #A33A00;
-    border: 1px solid #F5C4A0;
-    border-radius: 7px;
-    padding: 10px 16px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background 0.15s;
-    margin-bottom: 14px;
-  }
-  .btn-dam:hover { background: #FFE8D6; }
-  .btn-dam.copied { background: #EAF3DE; border-color: #9FE1CB; color: #085041; }
+/* ── FIELDS ── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.field-full { margin-bottom: 10px; }
+@media (max-width: 480px) { .grid2,.grid3 { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 11px; font-weight: 600; color: #555; }
+.field input, .field select {
+  font-size: 13px;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 10px; color: var(--dark); background: #FAFAF8; width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--teal); background: var(--white); }
+.field input.error { border-color: var(--error); }
+.field .hint { font-size: 10px; color: #AAA; line-height: 1.4; }
+.req { color: var(--teal); }
 
-  /* DAM preview table */
-  .dam-scroll { overflow-x: auto; border-radius: 7px; border: 1px solid #E8E8E8; }
-  .dam-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
-  .dam-table th {
-    background: #1A1A1A; color: #fff;
-    padding: 6px 10px; text-align: left; font-weight: 600;
-    white-space: nowrap;
-  }
-  .dam-table td {
-    padding: 5px 10px;
-    border-bottom: 1px solid #F0F0F0;
-    white-space: nowrap;
-    color: #1A1A1A;
-  }
-  .dam-table tr:nth-child(even) td { background: #FAFAFA; }
-  .dam-table .col-auto { color: #BBB; font-style: italic; }
-  .dam-table .col-letter { font-weight: 700; color: #888; font-size: 11px; }
+/* ── SUBMIT BUTTON ── */
+.btn-submit {
+  width: 100%;
+  background: var(--teal);
+  color: var(--white);
+  border: none; border-radius: 6px;
+  padding: 13px; font-size: 14px; font-weight: 500;
+  cursor: pointer; margin-top: 8px;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s;
+  font-family: inherit;
+}
+.btn-submit:hover { background: #036E70; }
+.btn-submit:active { transform: scale(0.99); }
+.btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
 
-  /* ── Section divider ── */
-  .divider { border: none; border-top: 1px solid #EBEBEB; margin: 18px 0; }
+/* ── STATUS ── */
+.status { display: none; border-radius: 7px; padding: 12px 14px; font-size: 12px; line-height: 1.6; margin-top: 10px; }
+.status.loading { background: var(--offwhite); border: 1px solid var(--border); color: var(--muted); }
+.status.success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); }
+.status.error   { background: #FDECEC; border: 1px solid #F5BFBF; color: #7A1F1F; }
+.spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Name output rows ── */
-  .out-section-title {
-    font-size: 11px; font-weight: 700; color: #888;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .out-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
-  .out-tag {
-    font-size: 11px; font-weight: 600; color: #888;
-    min-width: 100px; padding-top: 5px; flex-shrink: 0;
-  }
-  .out-val {
-    font-size: 12px; font-family: 'Courier New', monospace;
-    background: #F5F4F0; border: 1px solid #E0E0E0;
-    border-radius: 5px; padding: 4px 9px;
-    flex: 1; word-break: break-all; color: #1A1A1A;
-    cursor: pointer; transition: background 0.15s;
-    line-height: 1.5;
-  }
-  .out-val:hover { background: #EBEBEB; }
-  .out-val.flash { background: #EAF3DE !important; }
-  .copy-hint { font-size: 11px; color: #AAA; margin-bottom: 8px; }
+/* ── OUTPUT SECTION ── */
+.output { display: none; max-width: 1080px; margin: 0 auto; padding: 0 2rem 4rem; }
+.out-card { background: var(--white); border-radius: 12px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(58,58,59,0.06); }
+.out-card-title { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #F0EFEA; }
+.out-card.dam-highlight { border: 1.5px solid var(--teal); }
+.out-card.dam-highlight .out-card-title { color: var(--teal); }
+.dam-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+.btn-dam {
+  width: 100%;
+  background: var(--success-bg); color: var(--success-text);
+  border: 1px solid var(--success-border);
+  border-radius: 6px; padding: 10px 16px; font-size: 13px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 8px; margin-bottom: 14px; transition: background 0.15s;
+  font-family: inherit;
+}
+.btn-dam:hover { background: #CCE9E9; }
+.btn-dam.copied { background: #B8E4E4; border-color: var(--teal); color: var(--success-text); }
+.dam-scroll { overflow-x: auto; border-radius: 6px; border: 1px solid #EBEBEB; }
+.dam-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.dam-table th { background: var(--dark); color: var(--white); padding: 6px 10px; text-align: left; font-weight: 600; white-space: nowrap; font-family: inherit; }
+.dam-table td { padding: 5px 10px; border-bottom: 1px solid #F2F2F0; white-space: nowrap; }
+.dam-table tr:nth-child(even) td { background: #F9F9F7; }
+.dam-table .col-auto { color: #C0C0BC; font-style: italic; }
+.dam-table .col-letter { font-weight: 700; color: #999; font-size: 11px; }
+.out-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
+.out-tag { font-size: 11px; font-weight: 600; color: #999; min-width: 100px; padding-top: 5px; flex-shrink: 0; }
+.out-val {
+  font-size: 12px; font-family: 'Courier New', monospace;
+  background: var(--offwhite); border: 1px solid var(--border);
+  border-radius: 5px; padding: 4px 9px; flex: 1; word-break: break-all;
+  color: var(--dark); cursor: pointer; transition: background 0.15s; line-height: 1.5;
+}
+.out-val:hover { background: #DDDCD4; }
+.out-val.flash { background: var(--success-bg) !important; }
+.copy-hint { font-size: 11px; color: #BBB; margin-bottom: 8px; }
+.qc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+.qc-dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.qc-pass { background: var(--success-bg); color: var(--success-text); }
+.qc-fail  { background: #FDECEC; color: #7A1F1F; }
 
-  /* ── QC checklist ── */
-  .qc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
-  .qc-dot {
-    width: 18px; height: 18px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; font-weight: 700; flex-shrink: 0;
-  }
-  .qc-pass { background: #EAF3DE; color: #3B6D11; }
-  .qc-fail { background: #FCEBEB; color: #A32D2D; }
-
-  /* ── Footer ── */
-  .footer {
-    text-align: center;
-    font-size: 11px;
-    color: #BBB;
-    margin-top: 2.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #E8E8E8;
-  }
+/* ── FOOTER ── */
+.footer { background: var(--dark); padding: 2rem 2.5rem; text-align: center; font-size: 11px; color: #555; line-height: 1.9; margin-top: 2rem; }
+.footer a { color: #666; text-decoration: none; }
+.footer a:hover { color: var(--lt-blue); }
+.footer-logo { margin-bottom: 10px; display: flex; justify-content: center; }
+.footer-logo svg { height: 22px; width: auto; opacity: 0.7; }
 </style>
 </head>
 <body>
 
-<div class="page">
+<!-- Nav -->
+<nav class="nav">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311.11 143.14" style="height:28px;width:auto">
+    <defs><style>.st0{fill:#fff}</style></defs>
+    <path class="st0" d="M198.28,53.3h-32.56l-7.51,14.29c-1.02,2.21-2.72,4.71-2.72,4.71h-.34s-1.53-2.5-2.72-4.71l-7.51-14.29h-32.55l25.58,39.48-25.47,39.52h32l8.63-16.5c.85-1.53,2.04-4.5,2.04-4.5h.34s1.19,2.97,2.04,4.5l8.77,16.5h32.02l-25.47-39.52,25.42-39.48Z"/>
+    <path class="st0" d="M88.06,71.79c1.32-1.69,13.16-16.16,13.16-30.64,0-25-20.49-38.91-45.48-38.91C24.34,2.25,10.62,21.42,10.62,40.96c0,11.47,5.07,19.55,12.22,25.75-4.14,3.2-18.61,15.41-18.61,32.7,0,21.43,17.1,41.72,49.81,41.72s49.81-20.49,49.81-40.97c0-13.53-6.77-22.18-15.79-28.38ZM54.98,31.19c8.83,0,14.1,4.89,14.1,12.4,0,8.27-3.57,14.47-4.7,16.54-11.84-5.07-21.61-9.59-21.61-18.42,0-5.83,3.76-10.53,12.22-10.53ZM54.04,112.2c-9.02,0-16.16-6.95-16.16-15.6,0-7.33,3.95-12.97,7.14-16.35,13.16,6.01,25.19,10.53,25.19,18.23,0,8.83-6.2,13.72-16.16,13.72Z"/>
+    <path class="st0" d="M290.33,71.79c1.32-1.69,13.16-16.16,13.16-30.64,0-25-20.49-38.91-45.48-38.91-31.39,0-45.11,19.17-45.11,38.72,0,11.47,5.07,19.55,12.22,25.75-4.14,3.2-18.61,15.41-18.61,32.7,0,21.43,17.1,41.72,49.81,41.72s49.81-20.49,49.81-40.97c0-13.53-6.77-22.18-15.79-28.38ZM257.25,31.19c8.83,0,14.1,4.89,14.1,12.4,0,8.27-3.57,14.47-4.7,16.54-11.84-5.07-21.61-9.59-21.61-18.42,0-5.83,3.76-10.53,12.22-10.53ZM256.31,112.2c-9.02,0-16.16-6.95-16.16-15.6,0-7.33,3.95-12.97,7.14-16.35,13.16,6.01,25.19,10.53,25.19,18.23,0,8.83-6.2,13.72-16.16,13.72Z"/>
+  </svg>
+  <span class="nav-tag">Marketing Operations</span>
+</nav>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-top">
-      <div class="logo">8<span>x</span>8</div>
-    </div>
-    <h1>Content Asset Intake</h1>
-    <p>Fill in the details below. All naming conventions, SFDC campaign names, and DAM row values are generated automatically.</p>
-  </div>
+<!-- Hero -->
+<div class="hero">
+  <h1>Content Asset <em>Intake</em></h1>
+  <p>Submit a new asset to automatically generate naming conventions, SFDC campaigns, and DAM row values.</p>
+</div>
 
-  <!-- Webhook config -->
-  <div class="webhook-bar">
-    <label>Tray webhook URL</label>
-    <input type="text" id="webhook-url" placeholder="https://tray.io/webhooks/..." oninput="updateWhStatus()" />
-    <span class="wh-pill wh-unset" id="wh-pill">Not configured</span>
-  </div>
+<!-- Main two-column -->
+<div class="main">
 
-  <!-- Form -->
-  <div class="card">
-    <div class="card-title">Asset details</div>
-    <div class="grid2" style="margin-bottom:12px">
-      <div class="field">
-        <label>Full asset title *</label>
-        <input type="text" id="title" placeholder="e.g. The New Mandate for Retail IT: Streamline. Secure. Scale." />
-        <span class="hint">Title as it appears on the asset cover</span>
-      </div>
-      <div class="field">
-        <label>Short title (3–5 words) *</label>
-        <input type="text" id="short" placeholder="e.g. new mandate for retail IT" />
-        <span class="hint">Lowercase, no punctuation — used for URLs, Marketo, SFDC</span>
-      </div>
+  <!-- LEFT -->
+  <div class="col-left">
+    <div class="info-block">
+      <h2>What happens when you submit</h2>
+      <p>Fill in the form once — everything else is generated or automated for you.</p>
+      <ul class="step-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <strong>Names generated instantly</strong>
+            <span>Vanity URL, TY page, Marketo program name, SFDC parent, and all 9 channel campaign names.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <strong>DAM row ready to paste</strong>
+            <span>All 23 columns pre-filled. One click copies the row — paste directly into the DAM sheet.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <strong>Tray automation fires</strong>
+            <span>DAM row written, Asana tickets created, Marketo program scaffolded, Email notification sent.</span>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div class="grid3">
-      <div class="field"><label>Quarter</label>
-        <select id="quarter">
-          <option>FY26Q1</option><option selected>FY26Q2</option><option>FY26Q3</option>
-          <option>FY26Q4</option><option>FY27Q1</option><option>FY27Q2</option>
-        </select>
-      </div>
-      <div class="field"><label>Region</label>
-        <select id="region">
-          <option>US</option><option>EMEA</option><option>APAC</option><option>WW</option><option>LATAM</option>
-        </select>
-      </div>
-      <div class="field"><label>Audience</label>
-        <select id="audience">
-          <option>MM</option><option>ENT</option><option>MM/ENT</option><option>SMB</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Campaign context</div>
-    <div class="grid3" style="margin-bottom:12px">
-      <div class="field"><label>Industry</label>
-        <select id="vertical">
-          <option value="BSVC">Business Services</option>
-          <option value="EDU">Education</option>
-          <option value="FINS">Financial Services</option>
-          <option value="GOVT">Government</option>
-          <option value="HLTH">Healthcare</option>
-          <option value="HTCH">High Tech</option>
-          <option value="HOUS">Housing</option>
-          <option value="INSR">Insurance</option>
-          <option value="LEGL">Legal</option>
-          <option value="MFCG">Manufacturing</option>
-          <option value="PSVC">Professional Services</option>
-          <option value="PUBL">Public Sector</option>
-          <option value="RETL">Retail</option>
-          <option value="TRAN">Transportation</option>
-          <option value="NA">N/A</option>
-        </select>
-      </div>
-      <div class="field"><label>Product</label>
-        <select id="product">
-          <option>UC+CC</option><option>UC</option><option>CC</option><option>CPaaS</option>
-        </select>
-      </div>
-      <div class="field"><label>Funnel stage</label>
-        <select id="funnel">
-          <option>MOFU</option><option>TOFU</option><option>BOFU</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid3">
-      <div class="field"><label>Asset type</label>
-        <select id="assettype">
-          <option>Blog</option>
-          <option>Case Study</option>
-          <option>Checklist</option>
-          <option>Custom Video</option>
-          <option>Datasheet</option>
-          <option>Demo</option>
-          <option>eBook</option>
-          <option>Guide</option>
-          <option>Infographic</option>
-          <option>Journal</option>
-          <option>Landing Page</option>
-          <option>On-Demand WBR</option>
-          <option>Promotion</option>
-          <option>Report</option>
-          <option>ROI Calculator</option>
-          <option>Solution Brief</option>
-          <option>Video</option>
-          <option>Webinar</option>
-          <option>Whitepaper</option>
-        </select>
-      </div>
-      <div class="field"><label>Audience type</label>
-        <select id="audtype">
-          <option>Prospect</option><option>Customer</option><option>Partner</option>
-        </select>
-      </div>
-      <div class="field"><label>Gating</label>
-        <select id="gating">
-          <option value="gated">Gated (web form)</option>
-          <option value="blind">Gated — blind form</option>
-          <option value="ungated">Ungated</option>
-        </select>
-      </div>
+    <hr class="info-divider" />
+    <div class="note-box">
+      <strong>Before you submit:</strong> Log your DAM entry first. Short title should be 3–5 words, lowercase, no punctuation — it becomes the vanity URL, Marketo program name, and all SFDC campaign names.
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">Requester</div>
-    <div class="grid2">
-      <div class="field">
-        <label>Your name</label>
-        <input type="text" id="requester" placeholder="e.g. Ivy Francisco" />
+  <!-- RIGHT -->
+  <div class="col-right">
+    <div class="form-card">
+      <div class="form-card-header">
+        <h3>Asset details</h3>
+        <p>Fields marked <span style="color:rgba(255,255,255,0.9)">*</span> are required</p>
       </div>
-      <div class="field">
-        <label>Due date</label>
-        <input type="date" id="duedate" />
+      <div class="form-body">
+
+        <div class="webhook-bar">
+          <label>Tray URL</label>
+          <input type="text" id="webhook-url" placeholder="https://tray.io/webhooks/..." oninput="updateWhStatus()" />
+          <span class="wh-pill wh-unset" id="wh-pill">Not configured</span>
+          <span class="hint">Request from MOPs</span>
+        </div>
+
+        <div class="sec-label">Asset</div>
+
+        <div class="field-full">
+          <div class="field">
+            <label>Full asset title <span class="req">*</span></label>
+            <input type="text" id="title" placeholder="e.g. The New Mandate for Retail IT: Streamline. Secure. Scale." />
+            <span class="hint">Title as it appears on the asset cover</span>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label>Short title (3–5 words) <span class="req">*</span></label>
+            <input type="text" id="short" placeholder="e.g. new mandate for retail IT" />
+            <span class="hint">Lowercase — used for URLs, Marketo, SFDC</span>
+          </div>
+          <div class="field">
+            <label>PDF / asset link</label>
+            <input type="url" id="pdflink" placeholder="https://cdn.8x8.com/files/..." />
+            <span class="hint">Direct link to the PDF or asset file</span>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <div class="field">
+            <label>Asset type</label>
+            <select id="assettype">
+              <option>Blog</option><option>Case Study</option><option>Checklist</option>
+              <option>Custom Video</option><option>Datasheet</option><option>Demo</option>
+              <option>eBook</option><option>Guide</option><option>Infographic</option>
+              <option>Journal</option><option>Landing Page</option><option>On-Demand WBR</option>
+              <option>Promotion</option><option>Report</option><option>ROI Calculator</option>
+              <option>Solution Brief</option><option>Video</option><option>Webinar</option>
+              <option>Whitepaper</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Gating</label>
+            <select id="gating">
+              <option value="Y">Gated (web form)</option>
+              <option value="Y">Gated — blind form</option>
+              <option value="N">Ungated</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Audience type</label>
+            <select id="audtype">
+              <option>Prospect</option><option>Customer</option><option>Partner</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sec-label">Campaign</div>
+
+        <div class="grid3">
+          <div class="field">
+            <label>Quarter</label>
+            <select id="quarter">
+              <option selected>FY27Q1</option><option>FY27Q2</option>
+              <option>FY27Q3</option><option>FY27Q4</option><option>FY28Q1</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Region</label>
+            <select id="region">
+              <option>US</option><option>EMEA</option><option>APAC</option><option>WW</option><option>LATAM</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Audience</label>
+            <select id="audience">
+              <option>MM</option><option>ENT</option><option>MM/ENT</option><option>SMB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <div class="field">
+            <label>Industry</label>
+            <select id="vertical">
+              <option>Business Services</option><option>Education</option>
+              <option>Financial Services</option><option>Government</option>
+              <option>Healthcare</option><option>High Tech</option>
+              <option>Housing</option><option>Insurance</option>
+              <option>Legal</option><option>Manufacturing</option>
+              <option>Professional Services</option><option>Public Sector</option>
+              <option>Retail</option><option>Transportation</option><option>N/A</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Product</label>
+            <select id="product">
+              <option>UC+CC</option><option>UC</option><option>CC</option><option>CPaaS</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Funnel stage</label>
+            <select id="funnel">
+              <option>MOFU</option><option>TOFU</option><option>BOFU</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sec-label">Requester</div>
+
+        <div class="grid2">
+          <div class="field">
+            <label>Your name</label>
+            <input type="text" id="requester" placeholder="e.g. Ivy Francisco" />
+          </div>
+          <div class="field">
+            <label>Launch Date</label>
+            <input type="date" id="duedate" />
+          </div>
+        </div>
+
+        <button class="btn-submit" id="submit-btn" onclick="submitForm()">Submit</button>
+        <div class="status" id="status-box"></div>
+
       </div>
     </div>
   </div>
 
-  <button class="btn-submit" id="submit-btn" onclick="submit()">Submit ↗</button>
-  <div class="status" id="status-box"></div>
+</div>
 
-  <!-- Output -->
-  <div class="output" id="output">
+<!-- OUTPUT -->
+<div class="output" id="output">
 
-    <!-- DAM row copy -->
-    <div class="dam-card">
-      <div class="dam-card-title">DAM sheet row</div>
-      <div class="dam-card-sub">All 23 columns pre-filled. Click the button to copy as a tab-separated row, then open the <a href="https://docs.google.com/spreadsheets/d/1Dry7yUP9lcAyXzwB5pQjWK77Uo6vRLPm1UMRXwm4Zso/edit" target="_blank">DAM sheet</a>, click the next empty row, and paste.</div>
-      <button class="btn-dam" id="dam-btn" onclick="copyDAMRow()">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11H2.5A1.5 1.5 0 0 1 1 9.5V2.5A1.5 1.5 0 0 1 2.5 1h7A1.5 1.5 0 0 1 11 2.5V3" stroke="currentColor" stroke-width="1.3"/></svg>
-        Copy DAM row — paste straight into Google Sheets
-      </button>
-      <div class="dam-scroll">
-        <table class="dam-table">
-          <thead><tr><th>Col</th><th>Column name</th><th>Value</th></tr></thead>
-          <tbody id="dam-tbody"></tbody>
-        </table>
-      </div>
+  <div class="out-card dam-highlight">
+    <div class="out-card-title">DAM sheet row</div>
+    <div class="dam-sub">All 23 columns pre-filled. Click the button, open the <a href="https://docs.google.com/spreadsheets/d/1Dry7yUP9lcAyXzwB5pQjWK77Uo6vRLPm1UMRXwm4Zso/edit" target="_blank" style="color:var(--teal)">DAM sheet</a>, click the next empty row, and paste.</div>
+    <button class="btn-dam" id="dam-btn" onclick="copyDAMRow()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11H2.5A1.5 1.5 0 0 1 1 9.5V2.5A1.5 1.5 0 0 1 2.5 1h7A1.5 1.5 0 0 1 11 2.5V3" stroke="currentColor" stroke-width="1.3"/></svg>
+      Copy DAM row — paste straight into Google Sheets
+    </button>
+    <div class="dam-scroll">
+      <table class="dam-table">
+        <thead><tr><th>Col</th><th>Column name</th><th>Value</th></tr></thead>
+        <tbody id="dam-tbody"></tbody>
+      </table>
     </div>
-
-    <!-- QC -->
-    <div class="card">
-      <div class="card-title">Pre-flight QC</div>
-      <div id="qc-list"></div>
-    </div>
-
-    <!-- Core naming -->
-    <div class="card">
-      <div class="card-title">Core naming</div>
-      <div class="copy-hint">Click any value to copy</div>
-      <div id="core-names"></div>
-    </div>
-
-    <!-- SFDC campaigns -->
-    <div class="card">
-      <div class="card-title">SFDC campaign names</div>
-      <div id="sfdc-names"></div>
-    </div>
-
   </div>
 
-  <div class="footer">8x8 Marketing Operations &nbsp;·&nbsp; Content Asset Intake &nbsp;·&nbsp; <a href="https://docs.google.com/spreadsheets/d/1Dry7yUP9lcAyXzwB5pQjWK77Uo6vRLPm1UMRXwm4Zso/edit" target="_blank" style="color:#BBB">Open DAM sheet</a></div>
+  <div class="out-card">
+    <div class="out-card-title">Pre-flight QC</div>
+    <div id="qc-list"></div>
+  </div>
 
-</div><!-- /page -->
+  <div class="out-card">
+    <div class="out-card-title">Core naming <span class="copy-hint" style="display:inline;margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0">— click any value to copy</span></div>
+    <div id="core-names"></div>
+  </div>
+
+  <div class="out-card">
+    <div class="out-card-title">SFDC campaign names</div>
+    <div id="sfdc-names"></div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 311.11 143.14">
+      <defs><style>.stf{fill:#fff}</style></defs>
+      <path class="stf" d="M198.28,53.3h-32.56l-7.51,14.29c-1.02,2.21-2.72,4.71-2.72,4.71h-.34s-1.53-2.5-2.72-4.71l-7.51-14.29h-32.55l25.58,39.48-25.47,39.52h32l8.63-16.5c.85-1.53,2.04-4.5,2.04-4.5h.34s1.19,2.97,2.04,4.5l8.77,16.5h32.02l-25.47-39.52,25.42-39.48Z"/>
+      <path class="stf" d="M88.06,71.79c1.32-1.69,13.16-16.16,13.16-30.64,0-25-20.49-38.91-45.48-38.91C24.34,2.25,10.62,21.42,10.62,40.96c0,11.47,5.07,19.55,12.22,25.75-4.14,3.2-18.61,15.41-18.61,32.7,0,21.43,17.1,41.72,49.81,41.72s49.81-20.49,49.81-40.97c0-13.53-6.77-22.18-15.79-28.38ZM54.98,31.19c8.83,0,14.1,4.89,14.1,12.4,0,8.27-3.57,14.47-4.7,16.54-11.84-5.07-21.61-9.59-21.61-18.42,0-5.83,3.76-10.53,12.22-10.53ZM54.04,112.2c-9.02,0-16.16-6.95-16.16-15.6,0-7.33,3.95-12.97,7.14-16.35,13.16,6.01,25.19,10.53,25.19,18.23,0,8.83-6.2,13.72-16.16,13.72Z"/>
+      <path class="stf" d="M290.33,71.79c1.32-1.69,13.16-16.16,13.16-30.64,0-25-20.49-38.91-45.48-38.91-31.39,0-45.11,19.17-45.11,38.72,0,11.47,5.07,19.55,12.22,25.75-4.14,3.2-18.61,15.41-18.61,32.7,0,21.43,17.1,41.72,49.81,41.72s49.81-20.49,49.81-40.97c0-13.53-6.77-22.18-15.79-28.38ZM257.25,31.19c8.83,0,14.1,4.89,14.1,12.4,0,8.27-3.57,14.47-4.7,16.54-11.84-5.07-21.61-9.59-21.61-18.42,0-5.83,3.76-10.53,12.22-10.53ZM256.31,112.2c-9.02,0-16.16-6.95-16.16-15.6,0-7.33,3.95-12.97,7.14-16.35,13.16,6.01,25.19,10.53,25.19,18.23,0,8.83-6.2,13.72-16.16,13.72Z"/>
+    </svg>
+  </div>
+  <div>
+    <a href="https://docs.google.com/spreadsheets/d/1Dry7yUP9lcAyXzwB5pQjWK77Uo6vRLPm1UMRXwm4Zso/edit" target="_blank">Open DAM sheet</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.8x8.com/terms-and-conditions/privacy-policy" target="_blank">Privacy Policy</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.8x8.com/legal" target="_blank">Legal</a>
+  </div>
+  <div style="margin-top:6px">Copyright 2026 8x8, Inc. or its affiliates. All rights reserved.</div>
+</footer>
 
 <script>
-// ── CONFIGURE THIS ONCE TRAY IS READY ──────────────────────────────────────
-// Paste your Tray webhook URL here OR leave blank to use the input field above
 const DEFAULT_WEBHOOK_URL = '';
-// ───────────────────────────────────────────────────────────────────────────
-
 let _damRows = [];
 
 function slug(s){ return s.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'_'); }
 function slugH(s){ return s.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-'); }
+function properCase(s){
+  const ac=['AI','CX','UC','CC','IT','ROI','B2B','B2C','HR','API','CRM','ERP','SMB','SME','KPI'];
+  return s.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ')
+    .split(' ').map(w=>{ const u=w.toUpperCase(); return ac.includes(u)?u:w.charAt(0).toUpperCase()+w.slice(1); }).join('_');
+}
+function sfdcSafe(s){ return s.replace(/\//g,'-').replace(/\s+/g,'_'); }
 
 function updateWhStatus(){
-  const url = (document.getElementById('webhook-url').value.trim() || DEFAULT_WEBHOOK_URL);
-  const pill = document.getElementById('wh-pill');
-  if(url.startsWith('http')){
-    pill.className = 'wh-pill wh-set';
-    pill.textContent = 'Configured — full automation on submit';
-  } else {
-    pill.className = 'wh-pill wh-unset';
-    pill.textContent = 'Not configured — names only';
-  }
+  const url=document.getElementById('webhook-url').value.trim()||DEFAULT_WEBHOOK_URL;
+  const pill=document.getElementById('wh-pill');
+  if(url.startsWith('http')){ pill.className='wh-pill wh-set'; pill.textContent='Configured ✓'; }
+  else { pill.className='wh-pill wh-unset'; pill.textContent='Not configured'; }
 }
 
-function copyVal(el){
-  navigator.clipboard.writeText(el.textContent).then(()=>{
-    el.classList.add('flash');
-    setTimeout(()=>{ el.classList.remove('flash'); }, 700);
-  });
-}
-
-function outRow(tag, val){
-  return `<div class="out-row">
-    <span class="out-tag">${tag}</span>
-    <span class="out-val" onclick="copyVal(this)" title="Click to copy">${val}</span>
-  </div>`;
-}
-
-function qcRow(pass, label){
-  return `<div class="qc-row">
-    <div class="qc-dot ${pass?'qc-pass':'qc-fail'}">${pass?'✓':'✗'}</div>
-    <span style="color:${pass?'#1A1A1A':'#A32D2D'}">${label}</span>
-  </div>`;
-}
-
-function properCase(s){
-  return s.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ')
-    .split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join('_');
-}
-
-function setStatus(type, html){
-  const el = document.getElementById('status-box');
-  el.className = 'status ' + type;
-  el.innerHTML = html;
-  el.style.display = 'block';
-}
+function copyVal(el){ navigator.clipboard.writeText(el.textContent).then(()=>{ el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),700); }); }
+function outRow(tag,val){ return `<div class="out-row"><span class="out-tag">${tag}</span><span class="out-val" onclick="copyVal(this)">${val}</span></div>`; }
+function qcRow(pass,label){ return `<div class="qc-row"><div class="qc-dot ${pass?'qc-pass':'qc-fail'}">${pass?'✓':'✗'}</div><span style="color:${pass?'var(--dark)':'#7A1F1F'}">${label}</span></div>`; }
+function setStatus(type,html){ const el=document.getElementById('status-box'); el.className='status '+type; el.innerHTML=html; el.style.display='block'; }
 
 function buildPayload(){
-  const title     = document.getElementById('title').value.trim();
-  const shortRaw  = document.getElementById('short').value.trim();
-  const q         = document.getElementById('quarter').value;
-  const reg       = document.getElementById('region').value;
-  const aud       = document.getElementById('audience').value;
-  const vertEl    = document.getElementById('vertical');
-  const vert      = vertEl.options[vertEl.selectedIndex].text;
-  const prod      = document.getElementById('product').value;
-  const funnel    = document.getElementById('funnel').value;
-  const gating    = document.getElementById('gating').value;
-  const atType    = document.getElementById('assettype').value;
-  const audType   = document.getElementById('audtype').value;
-  const requester = document.getElementById('requester').value.trim();
-  const dueDate   = document.getElementById('duedate').value;
+  const title=document.getElementById('title').value.trim();
+  const shortRaw=document.getElementById('short').value.trim();
+  const pdfLink=document.getElementById('pdflink').value.trim();
+  const q=document.getElementById('quarter').value;
+  const reg=document.getElementById('region').value;
+  const aud=document.getElementById('audience').value;
+  const vert=document.getElementById('vertical').value;
+  const prod=document.getElementById('product').value;
+  const funnel=document.getElementById('funnel').value;
+  const gating=document.getElementById('gating').value;
+  const atType=document.getElementById('assettype').value;
+  const audType=document.getElementById('audtype').value;
+  const requester=document.getElementById('requester').value.trim();
+  const dueDate=document.getElementById('duedate').value;
 
-  const shortH    = slugH(shortRaw);
-  const shortSlug = slug(shortRaw);
-  const vanityUrl = `https://www.8x8.com/docs/${shortH}`;
-  const tyUrl     = `https://www.8x8.com/docs/${shortH}-thank-you`;
-  const marketoSlug = properCase(shortRaw).substring(0,40);
-  const marketo   = `${q}_${marketoSlug}`;
-  const sfdcParent= `${q}_${reg}_${prod}_${properCase(shortRaw)}_Parent`;
-  const today     = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+  const shortH=slugH(shortRaw);
+  const vanityUrl=`https://www.8x8.com/docs/${shortH}`;
+  const tyUrl=`https://www.8x8.com/docs/${shortH}-thank-you`;
+  const marketo=`${q}_${properCase(shortRaw).substring(0,40)}`;
+  const sfdcParent=`${q}_${reg}_${prod}_${properCase(shortRaw)}_Parent`;
+  const today=new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
 
-  const channels = [
-    ['CatchAll','_CatchAll'],
-    ['Organic Search','_OS'],
-    ['Organic Social','_OSM'],
-    ['Paid Search','_PS'],
-    ['Paid Social','_PSM'],
-    ['Referral','_RE'],
-    ['Website Direct','_WD'],
-    ['Email','_EM'],
-    ['Paid Ads','_PAD'],
-  ];
+  const channels=[['CatchAll','_CatchAll'],['Organic Search','_OS'],['Organic Social','_OSM'],['Paid Search','_PS'],['Paid Social','_PSM'],['Referral','_RE'],['Website Direct','_WD'],['Email','_EM'],['Paid Ads','_PAD']];
+  const sfdcCampaigns={};
+  channels.forEach(([l,s])=>{ sfdcCampaigns[l]=`${q}_${reg}_${sfdcSafe(aud)}_${sfdcSafe(vert)}_${prod}_${properCase(shortRaw)}${s}`; });
 
-  const sfdcCampaigns = {};
-  channels.forEach(([l,s])=>{
-    sfdcCampaigns[l] = `${q}_${reg}_${aud}_${vert}_${prod}_${properCase(shortRaw)}${s}`;
-  });
-
-  // DAM row — all 23 columns
-  _damRows = [
-    { col:'A', name:'Launch Date',                        val: today,      auto: false },
-    { col:'B', name:'Primary Interest on Marketo',        val: '',         auto: true  },
-    { col:'C', name:'Product',                            val: prod,       auto: false },
-    { col:'D', name:'Industry',                           val: vert,       auto: false },
-    { col:'E', name:'Asset Type',                         val: atType,     auto: false },
-    { col:'F', name:'Stage',                              val: funnel,     auto: false },
-    { col:'G', name:'Appropriate Nurture Stream',         val: '',         auto: true  },
-    { col:'H', name:'Asset Name (cover title)',           val: title,      auto: false },
-    { col:'I', name:'Asset Name (URL / Marketo title)',   val: shortRaw,   auto: false },
-    { col:'J', name:'Gated (Y/N)',                        val: gating==='ungated'?'N':'Y', auto: false },
-    { col:'K', name:'Google Drive link',                  val: '',         auto: true  },
-    { col:'L', name:'Web Gated LP Link',                  val: vanityUrl,  auto: false },
-    { col:'M', name:'TY / Success page',                  val: tyUrl,      auto: false },
-    { col:'N', name:'Asset Marketo/Contentstack Link',    val: '',         auto: true  },
-    { col:'O', name:'PDF URL',                            val: '',         auto: true  },
-    { col:'P', name:'Web Ticket (Asana)',                 val: '',         auto: true  },
-    { col:'Q', name:'MOPS Ticket (Asana)',                val: '',         auto: true  },
-    { col:'R', name:'Published?',                         val: 'N',        auto: false },
-    { col:'S', name:'MOPs Assigned',                      val: requester,  auto: false },
-    { col:'T', name:'Marketo Tracking Program',           val: marketo,    auto: false },
-    { col:'U', name:'Marketo LP Link (Known Contact)',    val: '',         auto: true  },
-    { col:'V', name:'SFDC Parent Campaign Name',          val: sfdcParent, auto: false },
-    { col:'W', name:'SFDC Parent Campaign Link',          val: '',         auto: true  },
+  _damRows=[
+    {col:'A',name:'Launch Date',val:today,auto:false},
+    {col:'B',name:'Primary Interest on Marketo',val:'',auto:true},
+    {col:'C',name:'Product',val:prod,auto:false},
+    {col:'D',name:'Industry',val:vert,auto:false},
+    {col:'E',name:'Asset Type',val:atType,auto:false},
+    {col:'F',name:'Stage',val:funnel,auto:false},
+    {col:'G',name:'Appropriate Nurture Stream',val:'',auto:true},
+    {col:'H',name:'Asset Name (cover title)',val:title,auto:false},
+    {col:'I',name:'Asset Name (URL / Marketo title)',val:shortRaw,auto:false},
+    {col:'J',name:'Gated (Y/N)',val:gating,auto:false},
+    {col:'K',name:'Google Drive link',val:'',auto:true},
+    {col:'L',name:'Web Gated LP Link',val:vanityUrl,auto:false},
+    {col:'M',name:'TY / Success page',val:tyUrl,auto:false},
+    {col:'N',name:'Asset Marketo/Contentstack Link',val:'',auto:true},
+    {col:'O',name:'PDF URL',val:pdfLink,auto:false},
+    {col:'P',name:'Web Ticket (Asana)',val:'',auto:true},
+    {col:'Q',name:'MOPS Ticket (Asana)',val:'',auto:true},
+    {col:'R',name:'Published?',val:'N',auto:false},
+    {col:'S',name:'MOPs Assigned',val:requester,auto:false},
+    {col:'T',name:'Marketo Tracking Program',val:marketo,auto:false},
+    {col:'U',name:'Marketo LP Link (Known Contact)',val:'',auto:true},
+    {col:'V',name:'SFDC Parent Campaign Name',val:sfdcParent,auto:false},
+    {col:'W',name:'SFDC Parent Campaign Link',val:'',auto:true},
   ];
 
   return {
-    assetTitle: title, shortTitle: shortRaw,
-    quarter: q, region: reg, audience: aud, industry: vert, product: prod,
-    funnelStage: funnel, assetType: atType, audienceType: audType, gating,
-    vanityUrl, thankYouUrl: tyUrl, marketoProgram: marketo, sfdcParent,
-    sfdcCampaigns,
-    damRow: _damRows.map(r=>r.val),
-    requester: requester || '',
-    dueDate: dueDate || null,
-    submittedAt: new Date().toISOString()
+    assetTitle:title,shortTitle:shortRaw,pdfLink,
+    quarter:q,region:reg,audience:aud,industry:vert,product:prod,
+    funnelStage:funnel,assetType:atType,audienceType:audType,gating,
+    vanityUrl,thankYouUrl:tyUrl,marketoProgram:marketo,sfdcParent,
+    sfdcCampaigns,damRow:_damRows.map(r=>r.val),
+    requester:requester||'',dueDate:dueDate||null,
+    submittedAt:new Date().toISOString()
   };
 }
 
-function renderOutput(payload, asanaLinks){
-  // Update DAM ticket columns if Tray returned links
-  if(asanaLinks){
-    const p = _damRows.find(r=>r.col==='P');
-    const q = _damRows.find(r=>r.col==='Q');
-    if(p && asanaLinks.webUrl){ p.val=asanaLinks.webUrl; p.auto=false; }
-    if(q && asanaLinks.mopsUrl){ q.val=asanaLinks.mopsUrl; q.auto=false; }
-  }
-
-  // DAM table
-  document.getElementById('dam-tbody').innerHTML = _damRows.map(r=>`
-    <tr>
-      <td class="col-letter">${r.col}</td>
-      <td style="color:#555">${r.name}</td>
-      <td class="${r.auto?'col-auto':''}">${r.auto ? 'fill in later' : (r.val || '—')}</td>
-    </tr>
-  `).join('');
-
-  // QC
-  const { assetTitle, shortTitle, gating } = payload;
-  document.getElementById('qc-list').innerHTML = [
-    [assetTitle.length > 10,                       'Full asset title is filled in'],
-    [shortTitle.split(' ').length >= 2,            'Short title is 3–5 words'],
-    [shortTitle === shortTitle.toLowerCase(),       'Short title is lowercase'],
-    [true,                                          'DAM entry logged before tickets are created'],
-    [true,                                          'Asset name explicitly included on Asana tasks'],
+function renderOutput(payload){
+  document.getElementById('dam-tbody').innerHTML=_damRows.map(r=>`<tr><td class="col-letter">${r.col}</td><td style="color:#666">${r.name}</td><td class="${r.auto?'col-auto':''}">${r.auto?'fill in later':(r.val||'—')}</td></tr>`).join('');
+  document.getElementById('qc-list').innerHTML=[
+    [payload.assetTitle.length>5,'Full asset title is filled in'],
+    [payload.shortTitle.split(' ').length>=2,'Short title is 3–5 words'],
+    [payload.shortTitle===payload.shortTitle.toLowerCase(),'Short title is lowercase'],
+    [true,'DAM entry logged before tickets created'],
+    [true,'Asset name explicitly included on Asana tasks'],
   ].map(([p,l])=>qcRow(p,l)).join('');
-
-  // Core naming
-  let coreHtml = outRow('Short title', shortTitle)
-    + outRow('Vanity URL', payload.vanityUrl)
-    + outRow('TY page', payload.thankYouUrl)
-    + outRow('Marketo', payload.marketoProgram)
-    + outRow('SFDC parent', payload.sfdcParent);
-
-  document.getElementById('core-names').innerHTML = coreHtml;
-
-  // SFDC
-  document.getElementById('sfdc-names').innerHTML =
-    Object.entries(payload.sfdcCampaigns).map(([l,v])=>outRow(l,v)).join('');
-
-  document.getElementById('output').style.display = 'block';
+  document.getElementById('core-names').innerHTML=
+    outRow('Short title',payload.shortTitle)
+    +outRow('Vanity URL',payload.vanityUrl)
+    +outRow('TY page',payload.thankYouUrl)
+    +outRow('Marketo',payload.marketoProgram)
+    +outRow('SFDC parent',payload.sfdcParent)
+    +(payload.pdfLink?outRow('PDF link',payload.pdfLink):'');
+  document.getElementById('sfdc-names').innerHTML=Object.entries(payload.sfdcCampaigns).map(([l,v])=>outRow(l,v)).join('');
+  document.getElementById('output').style.display='block';
+  document.getElementById('output').scrollIntoView({behavior:'smooth'});
 }
 
 function copyDAMRow(){
-  const tsv = _damRows.map(r=>r.val).join('\t');
-  navigator.clipboard.writeText(tsv).then(()=>{
-    const btn = document.getElementById('dam-btn');
+  navigator.clipboard.writeText(_damRows.map(r=>r.val).join('\t')).then(()=>{
+    const btn=document.getElementById('dam-btn');
     btn.classList.add('copied');
-    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied! Open the DAM sheet and paste into the next empty row`;
-    setTimeout(()=>{
-      btn.classList.remove('copied');
-      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11H2.5A1.5 1.5 0 0 1 1 9.5V2.5A1.5 1.5 0 0 1 2.5 1h7A1.5 1.5 0 0 1 11 2.5V3" stroke="currentColor" stroke-width="1.3"/></svg> Copy DAM row — paste straight into Google Sheets`;
-    }, 3000);
+    btn.innerHTML=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied! Open the DAM sheet and paste into the next empty row`;
+    setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11H2.5A1.5 1.5 0 0 1 1 9.5V2.5A1.5 1.5 0 0 1 2.5 1h7A1.5 1.5 0 0 1 11 2.5V3" stroke="currentColor" stroke-width="1.3"/></svg> Copy DAM row — paste straight into Google Sheets`; },3000);
   });
 }
 
-async function submit(){
-  const title    = document.getElementById('title').value.trim();
-  const shortRaw = document.getElementById('short').value.trim();
-
-  // Validate
-  let valid = true;
-  ['title','short'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el.value.trim()){ el.classList.add('error'); valid=false; }
-    else { el.classList.remove('error'); }
-  });
-  if(!valid){ setStatus('error','Please fill in the required fields (marked in red).'); return; }
-
-  const webhookUrl = (document.getElementById('webhook-url').value.trim() || DEFAULT_WEBHOOK_URL);
-  const hasWebhook = webhookUrl.startsWith('http');
-
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Working…';
-
-  const payload = buildPayload();
-
+async function submitForm(){
+  let valid=true;
+  ['title','short'].forEach(id=>{ const el=document.getElementById(id); if(!el.value.trim()){el.classList.add('error');valid=false;}else el.classList.remove('error'); });
+  if(!valid){setStatus('error','Please fill in the required fields.');return;}
+  const webhookUrl=document.getElementById('webhook-url').value.trim()||DEFAULT_WEBHOOK_URL;
+  const hasWebhook=webhookUrl.startsWith('http');
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true; btn.textContent='Working…';
+  const payload=buildPayload();
   if(hasWebhook){
-    setStatus('loading','<span class="spinner"></span>Sending to Tray.io — DAM row, Asana tickets, and Marketo program will be created automatically…');
+    setStatus('loading','<span class="spinner"></span>Sending to Tray.io…');
     try{
-      await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        mode: 'no-cors'
-      });
-      setStatus('success',
-        '✓ Payload sent to Tray.io successfully.<br>' +
-        'Tray will now: <strong>write the DAM row</strong>, <strong>create both Asana tickets</strong>, <strong>scaffold the Marketo program</strong>, and <strong>post a Slack notification</strong>.<br>' +
-        'Check <strong>#mops-requests</strong> for the confirmation message with ticket links.<br><br>' +
-        'All generated naming values are below for your reference.'
-      );
-      renderOutput(payload, null);
-    } catch(err){
-      setStatus('error', `Tray webhook failed: ${err.message}. Check the URL and try again.`);
-    }
+      await fetch(webhookUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),mode:'no-cors'});
+      setStatus('success','✓ Sent to Tray.io. DAM row, Asana tickets, and Marketo program are being created.<br>Check <strong>#mops-requests</strong> for confirmation.');
+      renderOutput(payload);
+    }catch(err){ setStatus('error',`Webhook failed: ${err.message}`); }
   } else {
-    // No webhook — generate names only, show DAM copy
-    setStatus('success',
-      '✓ All values generated.<br>' +
-      '<strong>No Tray webhook configured</strong> — Asana tickets and Marketo program will not be created automatically.<br>' +
-      'Use the <strong>Copy DAM row</strong> button below to paste values into the DAM sheet, then create Asana tickets manually.<br>' +
-      'Once Tray is configured, paste the webhook URL above and resubmit.'
-    );
-    renderOutput(payload, null);
+    setStatus('success','✓ Values generated. No Tray webhook configured — use the <strong>Copy DAM row</strong> button below.');
+    renderOutput(payload);
   }
-
-  btn.disabled = false;
-  btn.textContent = 'Submit ↗';
-  document.getElementById('status-box').scrollIntoView({ behavior: 'smooth' });
+  btn.disabled=false; btn.textContent='Submit';
 }
 
-// Init
-window.addEventListener('DOMContentLoaded', ()=>{
-  if(DEFAULT_WEBHOOK_URL) {
-    document.getElementById('webhook-url').value = DEFAULT_WEBHOOK_URL;
-    updateWhStatus();
-  }
-});
+window.addEventListener('DOMContentLoaded',()=>{ if(DEFAULT_WEBHOOK_URL){document.getElementById('webhook-url').value=DEFAULT_WEBHOOK_URL;updateWhStatus();} });
 </script>
 </body>
 </html>
